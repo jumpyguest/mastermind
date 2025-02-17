@@ -2,6 +2,7 @@ require_relative 'board'
 
 class Codemaker
   WINNING_FEEDBACK = ['r', 'r', 'r', 'r']
+  attr_reader :feedback
 
   def initialize
     @code = Array.new(4)
@@ -21,30 +22,33 @@ class Codemaker
   end
 
   def check_guess(turn, board, guess)
+    @feedback = generate_key_pegs(guess, @code).sort!
+    board.update_key_pegs(turn-1, @feedback)
+  end
+
+  def self.generate_key_pegs(guess, code)
     feedback = Array.new
-    white_keypeg_count = 0
     guess.each_with_index do |peg, index|
-      if peg == @code[index]
+      if peg == code[index]
         feedback.push('r')
-      elsif @code.include?(peg)
-        white_keypeg_count += 1
+      elsif code.include?(peg)
+        feedback.push('w')
       end
     end
-    white_keypeg_count.times {feedback.push('w')}
-    board.update_key_pegs(turn-1, feedback)
+    return feedback
   end
 
   def prompt_feedback(turn, board)
     puts "\nTurn #{turn}"
     puts "Computer has provided his guess."
     puts "Enter 'r' (red) for each correct code peg position and 'w' (white) for each correct code peg color but wrong position"
-    puts "Color Options: r (red), w (white). For example: 'rrww'"
+    puts "Color Options: r (red), w (white). Examples: 'rrww', 'wrw', 'r'"
     @feedback = Game.enter_key
     board.update_key_pegs(turn-1, @feedback)
   end
 
-  def guess_correct?(feedback)
-    if feedback.eql?(WINNING_FEEDBACK)
+  def guess_correct?
+    if @feedback.eql?(WINNING_FEEDBACK)
       puts "Codebreaker got the code correctly!"
       return true
     end

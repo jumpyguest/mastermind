@@ -17,9 +17,13 @@ class Game
     codemaker.prompt_code
     for n in 1..NUM_TURNS
       @turn = n
-      codebreaker.generate_guess(n, board)
+      codebreaker.generate_guess(n, board, codemaker.feedback)
       board.print_board
       codemaker.prompt_feedback(n, board)
+      if codemaker.guess_correct?
+        puts "Code broken by computer!"
+        return
+      end
     end
     board.print_board
   end
@@ -36,7 +40,7 @@ class Game
       codebreaker.prompt_guess(n, board)
       codemaker.check_guess(n, board, codebreaker.guess)
       board.print_board
-      if codemaker.guess_correct?(board.key_pegs[n-1])
+      if codemaker.guess_correct?
         self.declare_score(@turn)
         return
       end
@@ -83,5 +87,4 @@ class Game
       return code if valid == true
     end
   end
-
 end
