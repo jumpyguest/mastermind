@@ -13,4 +13,11 @@ class Codebreaker
     @guess = Game.enter_code
     board.update_code_pegs(turn-1, @guess)
   end
+
+  def generate_guess(turn, board)
+    if (turn == 1)
+      @guess = Board::CODE_COLORS.sample(4)
+    end
+    board.update_code_pegs(turn-1, @guess)
+  end
 end

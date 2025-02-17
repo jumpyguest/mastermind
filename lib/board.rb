@@ -2,7 +2,8 @@ require 'colorize'
 
 class Board
   COLORS_HASH = {'r'=>'red', 'y'=>'yellow', 'g'=>'green', 'm'=>'magenta', 'c'=>'cyan', 'w'=>'white', 'e' => 'grey'}
-  COLORS = ['r', 'y', 'g', 'm', 'c', 'w']
+  CODE_COLORS = ['r', 'y', 'g', 'm', 'c', 'w']
+  KEY_COLORS = ['r', 'w']
 
   attr_reader :key_pegs
 
@@ -26,13 +27,9 @@ class Board
 
   def update_code_pegs(turn, guess)
     @code_pegs[turn] = guess
-    puts "update_code_pegs"
-    p @code_pegs[turn]
   end
 
   def update_key_pegs(turn, feedback)
     @key_pegs[turn] = feedback
-    puts "update_key_pegs"
-    p @key_pegs[turn]
   end
 end
