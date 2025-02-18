@@ -8,14 +8,12 @@ class Board
   attr_reader :key_pegs
 
   def initialize
-    @turn = 1
-    @round = 1
     @code_pegs = Array.new(Game::NUM_TURNS) {Array.new(Game::NUM_CODE_PEGS, 'e')}
     @key_pegs = Array.new(Game::NUM_TURNS) {Array.new(Game::NUM_CODE_PEGS, 'e')}
   end
 
   def print_board
-    puts "--- Round #{@round} ---"
+    puts "--- Round #{Game::round?} ---"
     puts " guess  |  check"
 
     @code_pegs.reverse.each_with_index do |row, index|

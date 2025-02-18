@@ -1,5 +1,5 @@
 class Codebreaker
-  attr_reader :guess, :swaszek_array
+  attr_reader :guess
 
   def initialize
     @guess = Array.new(4)
@@ -17,9 +17,8 @@ class Codebreaker
 
   def generate_guess(turn, board, feedback)
     if (turn == 1)
-      @guess = Board::CODE_COLORS.sample(4)
-      @swaszek_array = Board::CODE_COLORS.permutation(4).to_a
-      p @swaszek_array.size
+      @guess = Board::CODE_COLORS.sample(Game::NUM_CODE_PEGS)
+      @swaszek_array = Board::CODE_COLORS.permutation(Game::NUM_CODE_PEGS).to_a
     else
       analyze_feedback(feedback)
       @guess = @swaszek_array[0]
@@ -28,9 +27,12 @@ class Codebreaker
   end
 
   def analyze_feedback(feedback)
-    puts "analyze_feedback"
     @swaszek_array.select! do |element|
       Codemaker.generate_key_pegs(element, @guess) == feedback
     end
   end
+
+  private
+
+  attr_reader :swaszek_array
 end

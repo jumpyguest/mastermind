@@ -5,24 +5,24 @@ class Codemaker
   attr_reader :feedback
 
   def initialize
-    @code = Array.new(4)
-    @feedback = Array.new(4)
+    @code = Array.new(Game::NUM_CODE_PEGS)
+    @feedback = Array.new(Game::NUM_CODE_PEGS)
   end
 
   def generate_code
-    @code = Board::CODE_COLORS.sample(4)
-    puts "codemaker generated code #{@code}"
+    @code = Board::CODE_COLORS.sample(Game::NUM_CODE_PEGS)
+    # puts "codemaker generated code #{@code}"
   end
 
   def prompt_code
-    puts "You are the codemaker!"
+    puts "\nYou are the codemaker!"
     puts "Enter the first letter of each color of your 4-color code. For example: 'rygc'"
     puts "Color Options: r (red), y (yellow), g (green), m (magenta), c (cyan), w (white)"
     @code = Game.enter_code
   end
 
   def check_guess(turn, board, guess)
-    @feedback = generate_key_pegs(guess, @code).sort!
+    @feedback = self.class.generate_key_pegs(guess, @code).sort!
     board.update_key_pegs(turn-1, @feedback)
   end
 
