@@ -64,6 +64,10 @@ class Game
     end
   end
 
+  def self.round?
+    @@round
+  end
+
   private
 
   def play_as_codemaker
@@ -111,7 +115,8 @@ class Game
   def declare_score(turn, is_code_breaker)
     score = (turn == NUM_TURNS) ? NUM_TURNS+1 : turn
     if is_code_breaker then @computer_score = score
-    else @human_score = score
+    else
+      @human_score = score
     end
     puts "Human score: #{@human_score}   Computer score: #{@computer_score}"
     if @@round == NUM_ROUNDS
@@ -122,9 +127,5 @@ class Game
         puts "#{winner} wins!!".colorize(:green)
       end
     end
-  end
-
-  def self.round?
-    @@round
   end
 end
